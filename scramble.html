@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Scramble</title>
+</head>
+<body>
+    <h1>A JavaScript Word Scramble Game</h1>
+
+    <script>
+        "use strict";
+
+        var WORDS     = ["booger", "apple", "hackbright", "mango"];
+        var SCRAMBLED = ["oogreb", "papel", "backrhight", "goman"];
+
+        var playing = true;
+
+        function scrambleWord(word){
+            var scramWord = [];
+            var letters = word.split("");
+            console.log(letters)
+            var wordLength = letters.length;
+            //loop based on the number of letters we are scrambling
+            for (var i = 0; i < wordLength; i++){
+                //get a random number from the remaining number of letters
+                var randInt = Math.floor(Math.random() *letters.length);
+                //add that letter to the scramWord array
+                scramWord.push(letters[randInt]);
+                //remove the letter you just picked from the letter array
+                letters = letters.slice(0, randInt).concat(letters.slice(randInt + 1));
+            }
+            return scramWord.join("");
+        }
+
+        while (playing) {
+
+            // Grab a random word from the WORDS array.
+            var randomIndex = Math.floor(Math.random() * (WORDS.length));
+            
+            var selectedWord = WORDS[randomIndex];
+
+            // Grab the corresponding scrambled word from the SCRAMBLED array.
+            var scramWord = SCRAMBLED[randomIndex];
+            
+            //alert("Word to unscramble: " + scramWord);
+
+            // Prompt the user to guess the original word when given the scrambled word.
+            var userAnswer = prompt("What is the unscrambled word for " + scramWord + "?");
+            try{
+                if (userAnswer != null){
+                    //remove any whitespace
+                    userAnswer = userAnswer.replace(/\s/g,'');
+
+                    //make it lowercase
+                    userAnswer = userAnswer.toLowerCase();
+
+                    // If the user guesses wrong, tell them they were wrong and show the right word.
+                    // if (userAnswer === selectedWord){
+                    //     alert("That is correct!")
+                    // }
+                    // else{
+                    //     alert("Good try, but it's actually " + selectedWord)
+                    // }
+                    while (userAnswer !== selectedWord){
+                        userAnswer = prompt("Sorry that's not it. Try again! Unscramble: " + scramWord);
+                    }
+                    alert("You did it!");
+                }
+                else{
+                    //alert("You didn't guess anything! Don't be a sore loser!");
+                    throw "User was being crabby and didn't guess anything!"
+                }
+            }
+            catch(error){
+                console.log(error)
+            }
+            
+            // If the user guesses the correct word, congratulate them.
+
+            playing = confirm("Press OK To keep playing or Cancel to quit");
+
+            // What does confirm() return?
+            // What does setting the playing variable do?
+        }
+
+        alert("goodbye!");
+    </script>
+    
+</body>
+</html>
